@@ -1,0 +1,23 @@
+# Query: map_image_15.webp
+# ContextLines: 1
+
+4 results - 3 files
+
+jefaissafaris\public\images\IMAGE-MAPPING.txt:
+  5  placeholder-bwindi.jpg  ->  65162.webp
+  6: placeholder-contact-hero.jpg  ->  map_image_15.webp
+  7  placeholder-entebbe.jpg  ->  map_image_27.webp
+
+jefaissafaris\src\app\contact\components\ContactHero.tsx:
+   5      <section className="relative min-h-[45vh] flex items-end bg-dark overflow-hidden" aria-label="Contact page hero">
+   6:       {/* CONTACT HERO IMAGE PLACEHOLDER — Replace /images/map_image_15.webp with your Uganda safari contact photograph */}
+   7        <div
+
+   9          style={{
+  10:           backgroundImage: "url(image: '/images/kampala.webp',)",
+  11            backgroundSize: 'cover',
+
+jefaissafaris\src\app\kampala-tours\page.tsx:
+  51      highlights: ['Kasubi Tombs', 'Uganda Museum', 'Nakasero Market', 'Expert city guide'],
+  52:   image: '/images/kampala.webp',
+  53      imageAlt: 'Kampala city skyline Uganda capital half-day tour',

@@ -1,0 +1,23 @@
+JE FAIS NATURE SAFARIS — Additional authentic image replacements
+
+placeholder-about-hero.jpg  ->  map_image_9.webp
+placeholder-about-cta.jpg  ->  map_image_101.webp
+placeholder-bwindi.jpg  ->  65162.webp
+placeholder-contact-hero.jpg  ->  map_image_15.webp
+placeholder-entebbe.jpg  ->  map_image_27.webp
+placeholder-kibale-forest.jpg  ->  map_image_7.webp
+placeholder-kidepo.jpg  ->  map_image_64.webp
+placeholder-lake-mburo.jpg  ->  map_image_28.webp
+placeholder-ssese.jpg  ->  map_image_54.webp
+placeholder-murchison-falls.jpg  ->  map_image_19.webp
+placeholder-national-parks.jpg  ->  map_image_10.webp
+placeholder-queen-elizabeth.jpg  ->  map_image_33.webp
+placeholder-safari-packages.jpg  ->  map_image_1.webp
+placeholder-safari-vehicle.jpg  ->  map_image_42.webp
+placeholder-safari-vehicle-2.jpg  ->  map_image_43.webp
+placeholder-safari-vehicle-3.jpg  ->  map_image_60.webp
+placeholder-team.jpg  ->  map_image_119.webp
+placeholder-uganda-landscape.jpg  ->  map_image_13.webp
+placeholder-wildlife-cta.jpg  ->  AA26.webp
+
+Note: placeholder-ziwa-rhino.jpg is intentionally excluded pending verification of the correct rhino photograph.
