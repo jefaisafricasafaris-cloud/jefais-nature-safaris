@@ -10,11 +10,11 @@ const packageImages: Record<string, { src: string; alt: string }> = {
     alt: 'Murchison Falls National Park Uganda safari landscape',
   },
   '6-day-uganda-safari': {
-    src: '/images/map_image_7.webp',
+ src: '/images/murchisonfalls23.webp',
     alt: 'Kibale Forest National Park chimpanzee trekking Uganda',
   },
   '5-day-uganda-safari': {
-    src: '/images/map_image_33.webp',
+   src: '/images/murchison-falls2.webp',
     alt: 'Queen Elizabeth National Park Uganda wildlife safari game drive',
   },
   '4-day-uganda-holiday-safari': {

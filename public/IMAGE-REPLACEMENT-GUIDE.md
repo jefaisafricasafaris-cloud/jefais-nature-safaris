@@ -273,4 +273,4 @@ Before going live, verify each of these images has been replaced:
 
 ---
 
-*Generated for JE FAIS NATURE SAFARIS LTD website — Je Fais Nature Safaris, Plot 5 De Winton Street, Kampala, Uganda*
+*Generated for JE FAIS NATURE SAFARIS LTD website — Je Fais Nature Safaris, Kampala and Entebbe Airport opposite Total, Plot 5 De Winton Street, Kampala, Uganda*

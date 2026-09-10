@@ -56,7 +56,7 @@ const tourPackages = [
     duration: 'Full Day',
     slug: 'kampala-full-day',
     highlights: ['All major landmarks', 'Gaddafi Mosque', 'Craft Village', 'Local lunch experience'],
-    image: '/images/map_image_21.webp',
+   image: '/images/gaddafi-mosque.webp',
     imageAlt: 'Kampala cultural tour Uganda full day city experience',
   },
   {
@@ -72,7 +72,7 @@ const tourPackages = [
     duration: 'Evening',
     slug: 'kampala-evening',
     highlights: ['Sunset city views', 'Local restaurant dinner', 'Rooftop bar experience', 'Safe guided evening'],
-    image: '/images/map_image_36.webp',
+image: '/images/kampala-night-life-kampala.webp',
     imageAlt: 'Kampala evening tour Uganda city nightlife rooftop sunset',
   },
 ];
@@ -90,7 +90,7 @@ const dayTrips = [
     name: 'Mabamba Wetland Birding',
     distance: '~1.5 hrs from Kampala',
     highlights: ['Shoebill stork sighting', 'Wetland boat ride', 'Over 300 bird species', 'Expert birding guide'],
-    image: '/images/map_image_54.webp',
+    image: '/images/bird.webp',
     imageAlt: 'Mabamba wetland shoebill stork birding day trip from Kampala Uganda',
     slug: 'mabamba-birding',
   },
@@ -106,7 +106,7 @@ export default function KampalaTours() {
           <div
             className="absolute inset-0 z-0"
             style={{
-              backgroundImage: "url('/images/map_image_45.webp')",
+            backgroundImage: "url('/images/The-Bahai-Temple-in-Kampala-Uganda.webp')",
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
@@ -166,14 +166,14 @@ export default function KampalaTours() {
               </div>
               <div className="space-y-4">
                 <div className="relative rounded-2xl overflow-hidden h-60 bg-dark shadow-xl">
-                  <img
-                    src="/images/map_image_63.webp"
-                    alt="Kampala city overview Uganda seven hills capital aerial panorama"
-                    width={600}
-                    height={240}
-                    className="w-full h-full object-cover object-center"
-                    loading="lazy"
-                  />
+              <img
+  src="/images/kampala-road.webp"
+  alt="Kampala city overview Uganda seven hills capital aerial panorama"
+  width={600}
+  height={240}
+  className="w-full h-full object-cover object-center"
+  loading="lazy"
+/>
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 60%)' }} />
                 </div>
                 {[

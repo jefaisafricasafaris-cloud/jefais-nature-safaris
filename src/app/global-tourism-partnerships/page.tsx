@@ -123,7 +123,7 @@ export default function GlobalTourismPartnershipsPage() {
             </p>
 
             <h1 className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-8xl">
-              Discover the Potential of Uganda.
+              Discover our neverending Potential.. 
             </h1>
 
             <p className="mt-8 max-w-2xl text-xl leading-8 text-stone-200 sm:text-2xl">

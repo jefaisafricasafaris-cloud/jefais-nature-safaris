@@ -66,18 +66,34 @@ export default function AboutPage() {
                 </p>
                 <div className="bg-muted rounded-lg p-5">
                   <h3 className="font-semibold text-foreground mb-3">Contact Information</h3>
-                  <address className="not-italic text-sm text-muted-foreground space-y-1">
-                    <p><strong className="text-foreground">JE FAIS NATURE SAFARIS LTD</strong></p>
-                    <p>Plot 5 De Winton Street, Kampala</p>
-                    <p>Opposite Total · Plus Code: 8H7Q+XP Kampala</p>
-                    <p>Uganda</p>
-                    <p className="mt-2">
-                      <a href="tel:0774729464" className="text-primary hover:text-accent transition-colors font-medium">📞 0774 729464</a>
-                    </p>
-                    <p>
-                      <a href="https://wa.me/256774729464" className="text-primary hover:text-accent transition-colors font-medium" target="_blank" rel="noopener noreferrer">💬 WhatsApp Us</a>
-                    </p>
-                  </address>
+                  <address className="not-italic text-sm text-white/45 leading-relaxed">
+  Kampala and Entebbe Airport opposite Total, Plot 5 De Winton Street, Kampala<br />
+
+  <a
+    href="https://maps.app.goo.gl/KSmcBcXR7RbfbNoz6"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="mt-3 inline-flex items-center gap-1.5 text-accent hover:text-white transition-colors font-medium"
+  >
+    📍 Find Us on Google Maps
+  </a>
+
+  <br />
+
+  <a
+    href="tel:0774729464"
+    className="hover:text-accent transition-colors font-medium text-white/70 mt-2 inline-flex items-center gap-1.5"
+  >
+    <svg
+      className="w-3.5 h-3.5"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.56.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.25 1.01l-2.2 2.21z" />
+    </svg>
+    0774 729464
+  </a>
+</address>
                 </div>
               </div>
               <div className="space-y-4">

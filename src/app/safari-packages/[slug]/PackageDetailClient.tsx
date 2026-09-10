@@ -22,7 +22,7 @@ export default function PackageDetailClient({ pkg }: PackageDetailClientProps) {
             Replace the image file at the path below with your actual safari photograph.
             Slug-to-image mapping:
               7-day-uganda-safari        → /images/map_image_19.webp
-              6-day-uganda-safari        → /images/map_image_7.webp
+              6-day-uganda-safari → /images/murchisonfalls23.webp
               5-day-uganda-safari        → /images/map_image_33.webp
               4-day-uganda-holiday-safari → /images/ziwa-rhino.webp
               3-day-murchison-falls-safari → /images/map_image_19.webp

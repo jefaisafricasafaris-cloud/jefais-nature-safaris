@@ -117,8 +117,8 @@ export default function UgandaSafarisPage() {
                 {
                   name: 'Kibale National Park',
                   highlight: 'Chimpanzee trekking',
-                  // KIBALE IMAGE PLACEHOLDER — /images/map_image_7.webp
-                  image: '/images/map_image_7.webp',
+                  // KIBALE IMAGE — /images/kibaleforest1.webp
+            image: '/images/kibaleforest1.webp',
                   imageAlt: 'Kibale National Park Uganda chimpanzee trekking forest',
                 },
                 {

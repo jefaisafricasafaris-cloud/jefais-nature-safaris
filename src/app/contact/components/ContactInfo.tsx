@@ -66,18 +66,15 @@ export default function ContactInfo() {
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Office Location</p>
               <address className="not-italic text-sm text-foreground leading-relaxed">
-                Plot 5 De Winton Street<br />
-                Opposite Total, Kampala<br />
-                Uganda · Plus Code: 8H7Q+XP
-              </address>
-              <a
-                href="https://www.google.com/maps/search/8H7Q+XP+Kampala"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-accent hover:underline font-medium mt-1 inline-block"
-              >
-                Open in Google Maps →
-              </a>
+                Kampala and Entebbe Airport opposite Total, Plot 5 De Winton Street, Kampala<br />
+                          </address>
+<a
+  href="https://www.google.com/maps/search/?api=1&query=JE+FAIS+NATURE+SAFARIS+Kampala+Uganda"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Find Us on Google Maps →
+</a>
             </div>
           </div>
 
@@ -141,7 +138,7 @@ export default function ContactInfo() {
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Follow Us</p>
         <div className="flex gap-3">
           <a
-            href="https://www.facebook.com/jefaisnaturesafaris/"
+            href="https://www.facebook.com/share/1Hsn81Z3en/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 bg-muted border border-border rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"

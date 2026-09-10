@@ -50,7 +50,7 @@ export default function HeroSection() {
           <div className="inline-flex items-center gap-2 mb-6">
             <span className="w-6 h-px bg-accent" />
             <span className="section-label text-accent border border-accent/30 px-3 py-1 rounded-sm backdrop-blur-sm bg-black/20">
-              Pearl of Africa · Est. Kampala, Uganda
+            Welcome to the Best Tour Operator in Uganda
             </span>
           </div>
 

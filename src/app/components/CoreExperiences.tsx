@@ -32,7 +32,7 @@ const experiences = [
     title: 'Chimpanzee Trekking',
     subtitle: 'Kibale National Park',
     description: 'Track our closest relatives through ancient rainforest. Kibale hosts the highest density of primates in Africa.',
-    href: '/wildlife-safaris',
+href: '/chimpanzee-trekking',
     badge: null,
     colSpan: 'md:col-span-1',
    imagePath: '/images/chimpanzee-kibale-q80.webp',

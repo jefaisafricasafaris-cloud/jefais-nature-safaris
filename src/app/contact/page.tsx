@@ -8,7 +8,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Contact & Book a Safari | Je Fais Nature Safaris Uganda',
-  description: 'Contact Je Fais Nature Safaris to plan your Uganda safari. Call 0774 729464, WhatsApp us, or send an enquiry. Plot 5 De Winton Street, Kampala, Uganda.',
+  description: 'Contact Je Fais Nature Safaris to plan your Uganda safari. Call 0774 729464, WhatsApp us, or send an enquiry. Kampala and Entebbe Airport opposite Total, Plot 5 De Winton Street, Kampala, Uganda.',
 };
 
 export default function ContactPage() {

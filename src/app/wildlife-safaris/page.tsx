@@ -107,8 +107,8 @@ export default function WildlifeSafarisPage() {
                   name: 'Kibale National Park',
                   highlights: ['Chimpanzee trekking', 'Primate walks', 'Forest birding', 'Bigodi Wetland Sanctuary'],
                   slug: '6-day-uganda-safari',
-                  // KIBALE FOREST IMAGE PLACEHOLDER — /images/map_image_7.webp
-                  image: '/images/map_image_7.webp',
+                 // KIBALE FOREST IMAGE — /images/kibaleforest1.webp
+           image: '/images/kibaleforest1.webp',
                   imageAlt: 'Kibale National Park chimpanzee trekking Uganda primate forest',
                 },
               ].map((park) => (
