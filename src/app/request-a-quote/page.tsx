@@ -1,5 +1,7 @@
 'use client';
+
 import React, { Suspense } from 'react';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import WhatsAppFloat from '@/app/components/WhatsAppFloat';
@@ -12,54 +14,114 @@ function QuotePageContent() {
   return (
     <>
       <Header />
+
       <main>
         {/* Hero */}
         <section
-          className="relative min-h-[45vh] flex items-end bg-dark overflow-hidden"
+          className="relative min-h-[45vh] overflow-hidden bg-[#102014]"
           aria-label="Request a Quote hero"
         >
-          <div
-            className="absolute inset-0 z-0"
-            style={{ background: 'linear-gradient(135deg, #0d1a0a 0%, #1a3a10 50%, #0d2a08 100%)' }}
-          />
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16 pt-36 w-full">
-            <nav className="flex items-center gap-2 text-xs text-white/60 mb-4" aria-label="Breadcrumb">
-              <a href="/" className="hover:text-white transition-colors">Home</a>
-              <span>/</span>
-              <span className="text-white/90">Request a Quote</span>
-            </nav>
-            <span className="section-label text-accent block mb-3">Personalized Safari Planning</span>
-            <h1 className="font-display text-hero text-white font-bold leading-tight mb-4">
-              Request a<br />Safari Quote
-            </h1>
-            <p className="text-sm sm:text-base text-white/80 max-w-xl leading-relaxed">
-              Every safari we plan is tailored to your travel dates, group size, accommodation preferences and interests. Fill in the form below and our team will prepare a personalized quotation for you.
-            </p>
+          {/* Safari planner image — right side */}
+          <div className="absolute inset-y-0 right-0 z-0 w-full lg:w-[58%]">
+            <Image
+              src="/images/Safari-planner.webp"
+              alt="Safari planner for Uganda safari adventures"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 58vw"
+              className="object-cover object-center"
+            />
+
+            {/* Dark fade toward the text */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#102014] via-[#102014]/65 to-transparent lg:from-[#102014] lg:via-[#102014]/25 lg:to-transparent" />
+          </div>
+
+          {/* Additional dark overlay on mobile */}
+          <div className="absolute inset-0 z-[1] bg-[#102014]/35 lg:hidden" />
+
+          {/* Hero content */}
+          <div className="relative z-10 mx-auto flex min-h-[45vh] w-full max-w-7xl items-end px-4 pb-12 pt-36 sm:px-6 sm:pb-16">
+            <div className="max-w-2xl">
+              {/* Breadcrumb */}
+              <nav
+                className="mb-4 flex items-center gap-2 text-xs text-white/60"
+                aria-label="Breadcrumb"
+              >
+                <a
+                  href="/"
+                  className="transition-colors hover:text-white"
+                >
+                  Home
+                </a>
+
+                <span>/</span>
+
+                <span className="text-white/90">
+                  Request a Quote
+                </span>
+              </nav>
+
+              <span className="section-label mb-3 block text-accent">
+                Personalized Safari Planning
+              </span>
+
+              <h1 className="font-display text-hero mb-4 font-bold leading-tight text-white">
+                Request a
+                <br />
+                Safari Quote
+              </h1>
+
+              <p className="max-w-xl text-sm leading-relaxed text-white/80 sm:text-base">
+                Every safari we plan is tailored to your travel dates,
+                group size, accommodation preferences and interests. Fill
+                in the form below and our team will prepare a personalized
+                quotation for you.
+              </p>
+            </div>
           </div>
         </section>
 
         {/* Form section */}
-        <section className="py-14 sm:py-16 bg-background" aria-labelledby="quote-form-heading">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <section
+          className="bg-background py-14 sm:py-16"
+          aria-labelledby="quote-form-heading"
+        >
+          <div className="mx-auto max-w-3xl px-4 sm:px-6">
             <div className="mb-8">
-              <h2 id="quote-form-heading" className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-3">
+              <h2
+                id="quote-form-heading"
+                className="font-display mb-3 text-2xl font-bold text-foreground sm:text-3xl"
+              >
                 Tell Us About Your Ideal Uganda Safari
               </h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                The more detail you provide, the more accurate and tailored your quotation will be. Fields marked with <span className="text-red-500">*</span> are required.
+
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                The more detail you provide, the more accurate and tailored
+                your quotation will be. Fields marked with{' '}
+                <span className="text-red-500">*</span> are required.
               </p>
             </div>
-            <QuoteRequestForm preselectedPackage={preselectedPackage} />
+
+            <QuoteRequestForm
+              preselectedPackage={preselectedPackage}
+            />
           </div>
         </section>
 
         {/* Why quote section */}
-        <section className="py-12 bg-muted border-t border-border" aria-labelledby="why-quote-heading">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <h2 id="why-quote-heading" className="font-display text-2xl font-bold text-foreground mb-6 text-center">
+        <section
+          className="border-t border-border bg-muted py-12"
+          aria-labelledby="why-quote-heading"
+        >
+          <div className="mx-auto max-w-4xl px-4 sm:px-6">
+            <h2
+              id="why-quote-heading"
+              className="font-display mb-6 text-center text-2xl font-bold text-foreground"
+            >
               Why We Quote Rather Than List Prices
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               {[
                 {
                   icon: '🗓️',
@@ -76,17 +138,29 @@ function QuotePageContent() {
                   title: 'Accommodation Choice',
                   desc: 'From budget camping to luxury lodges, your accommodation preference significantly shapes the experience and the cost.',
                 },
-              ]?.map((item) => (
-                <div key={item?.title} className="bg-card border border-border rounded-lg p-5 text-center">
-                  <span className="text-3xl block mb-3">{item?.icon}</span>
-                  <h3 className="font-display text-base font-bold text-foreground mb-2">{item?.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item?.desc}</p>
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-lg border border-border bg-card p-5 text-center"
+                >
+                  <span className="mb-3 block text-3xl">
+                    {item.icon}
+                  </span>
+
+                  <h3 className="font-display mb-2 text-base font-bold text-foreground">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </section>
-            </main>
+      </main>
+
       <WhatsAppFloat />
     </>
   );
@@ -94,16 +168,20 @@ function QuotePageContent() {
 
 export default function RequestAQuotePage() {
   return (
-    <Suspense fallback={
-      <>
-        <Header />
-        <main className="min-h-screen flex items-center justify-center">
-          <div className="text-muted-foreground">Loading...</div>
-        </main>
-         </>
-    }>
+    <Suspense
+      fallback={
+        <>
+          <Header />
+
+          <main className="flex min-h-screen items-center justify-center">
+            <div className="text-muted-foreground">
+              Loading...
+            </div>
+          </main>
+        </>
+      }
+    >
       <QuotePageContent />
     </Suspense>
   );
 }
-

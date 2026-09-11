@@ -10,6 +10,7 @@ const primaryLinks = [
   { label: 'Gorilla Trekking', href: '/gorilla-trekking' },
   { label: 'Wildlife Safaris', href: '/wildlife-safaris' },
   { label: 'Packages', href: '/safari-packages' },
+  { label: 'Blog', href: '/blog' },
 ];
 
 const moreLinks = [
@@ -27,14 +28,8 @@ const allMobileLinks = [
   { label: 'Uganda Safaris', href: '/uganda-safaris' },
   { label: 'Gorilla Trekking', href: '/gorilla-trekking' },
   { label: 'Wildlife Safaris', href: '/wildlife-safaris' },
+  { label: 'Blog', href: '/blog' },
   { label: 'National Parks', href: '/national-parks' },
-  { label: 'Kampala Tours', href: '/kampala-tours' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Packages', href: '/safari-packages' },
-  { label: 'About Us', href: '/about' },
-  { label: 'Global Tourism Partnerships', href: '/global-tourism-partnerships' },
-  { label: 'Tourism Internships', href: '/internships' },
-  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Header() {
@@ -44,6 +39,7 @@ export default function Header() {
 
   const moreRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const isBlogPage = pathname === '/blog';
 
   useEffect(() => {
     const onScroll = () => {
@@ -92,113 +88,120 @@ export default function Header() {
 
   return (
     <>
-      {/* ================= HEADER ================= */}
+      {/* =========================
+          DESKTOP / MAIN HEADER
+      ========================== */}
       <header
         className="fixed top-0 left-0 w-full z-50 transition-all duration-300"
         style={{
-          paddingTop: scrolled ? '0.65rem' : '0.9rem',
-          paddingBottom: scrolled ? '0.65rem' : '0.9rem',
-          background:
-            'linear-gradient(180deg, rgba(7,18,8,0.98) 0%, rgba(10,25,10,0.97) 100%)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          paddingTop: scrolled ? '0.55rem' : '0.8rem',
+          paddingBottom: scrolled ? '0.55rem' : '0.8rem',
+          background: '#ffffff',
           boxShadow: scrolled
-            ? '0 12px 35px rgba(0,0,0,0.35)'
-            : '0 8px 25px rgba(0,0,0,0.20)',
-          borderBottom: '1px solid rgba(200,150,90,0.18)',
+            ? '0 10px 30px rgba(0,0,0,0.12)'
+            : '0 5px 20px rgba(0,0,0,0.08)',
+          borderBottom: '1px solid rgba(45,80,22,0.12)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
 
-          {/* ================= LOGO ================= */}
+          {/* =========================
+              LOGO + BRAND
+          ========================== */}
           <Link
             href="/"
             className="flex items-center gap-3 z-50 relative group shrink-0"
             aria-label="Je Fais Nature Safaris Home"
+            onClick={() => {
+              setMenuOpen(false);
+              setMoreOpen(false);
+            }}
           >
             <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-[#C8965A]/25 scale-0 group-hover:scale-125 transition-transform duration-300" />
+              {/* Soft green hover glow */}
+              <div className="absolute inset-0 rounded-full bg-[#2D5016]/10 scale-0 group-hover:scale-125 transition-transform duration-300" />
 
               <AppLogo
                 src="/assets/images/65194-1788422840167.webp"
-                size={42}
+                size={52}
               />
             </div>
 
-            <div className="flex flex-col">
-              <span className="font-display text-white font-bold text-base sm:text-lg leading-tight tracking-tight">
+            {/* Brand name */}
+            <div className="flex flex-col justify-center">
+              <span className="font-display text-[#1F3D16] font-extrabold text-lg sm:text-xl leading-none tracking-tight">
                 Je Fais
               </span>
 
-              <span className="text-[#D9A66A] text-[0.58rem] sm:text-xs font-sans font-bold tracking-[0.2em] uppercase">
+              <span className="text-[#6B7F62] text-[0.62rem] sm:text-[0.68rem] font-semibold tracking-[0.18em] uppercase mt-1">
                 Nature Safaris
               </span>
             </div>
           </Link>
 
-          {/* ================= DESKTOP NAV ================= */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 flex-1 justify-end">
+          {/* =========================
+              DESKTOP NAVIGATION
+          ========================== */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 flex-1 justify-end">
 
-            {primaryLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`
-                  relative whitespace-nowrap
-                  px-3 py-2.5
-                  rounded-lg
-                  text-[13px] xl:text-sm
-                  font-semibold
-                  tracking-wide
-                  transition-all duration-200
-                  group
-                  ${
-                    isActive(link.href)
-                      ? 'text-[#F2C48D] bg-white/10'
-                      : 'text-white hover:text-[#F2C48D] hover:bg-white/8'
-                  }
-                `}
-              >
-                {link.label}
+            {/* Primary Links */}
+           {primaryLinks
+  .filter((link) => !(isBlogPage && link.href === '/wildlife-safaris'))
+  .map((link) => {
+              const active = isActive(link.href);
 
-                <span
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
                   className={`
-                    absolute bottom-1 left-3 right-3 h-[2px]
-                    bg-[#C8965A]
-                    rounded-full
-                    transition-transform duration-200 origin-center
+                    relative px-3 py-2.5 rounded-lg
+                    text-[0.82rem] xl:text-sm
+                    font-semibold
+                    whitespace-nowrap
+                    transition-all duration-200
                     ${
-                      isActive(link.href)
-                        ? 'scale-x-100'
-                        : 'scale-x-0 group-hover:scale-x-100'
+                      active
+                        ? 'text-[#2D5016] bg-[#F0F6EC]'
+                        : 'text-[#24351F] hover:text-[#2D5016] hover:bg-[#F5F8F3]'
                     }
                   `}
-                />
-              </Link>
-            ))}
+                >
+                  {link.label}
 
-            {/* ================= MORE ================= */}
-            <div ref={moreRef} className="relative">
+                  {active && (
+                    <span className="absolute bottom-1 left-3 right-3 h-[2px] rounded-full bg-[#2D5016]" />
+                  )}
+                </Link>
+              );
+            })}
 
+            {/* =========================
+                MORE DROPDOWN
+            ========================== */}
+            <div
+              ref={moreRef}
+              className="relative"
+            >
               <button
                 type="button"
-                onClick={() => setMoreOpen((open) => !open)}
-                aria-expanded={moreOpen}
-                aria-haspopup="true"
+                onClick={() => setMoreOpen((value) => !value)}
                 className={`
                   flex items-center gap-1
                   px-3 py-2.5
                   rounded-lg
-                  text-sm
+                  text-[0.82rem] xl:text-sm
                   font-semibold
-                  tracking-wide
+                  whitespace-nowrap
                   transition-all duration-200
                   ${
                     moreOpen
-                      ? 'text-[#F2C48D] bg-white/10'
-                      : 'text-white hover:text-[#F2C48D] hover:bg-white/8'
+                      ? 'text-[#2D5016] bg-[#F0F6EC]'
+                      : 'text-[#24351F] hover:text-[#2D5016] hover:bg-[#F5F8F3]'
                   }
                 `}
+                aria-expanded={moreOpen}
+                aria-haspopup="menu"
               >
                 More
 
@@ -206,322 +209,352 @@ export default function Header() {
                   className={`w-4 h-4 transition-transform duration-200 ${
                     moreOpen ? 'rotate-180' : ''
                   }`}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
                   aria-hidden="true"
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 9l-7 7-7-7"
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
                   />
                 </svg>
               </button>
 
-              {/* DROPDOWN */}
-              <div
-                className="absolute top-full right-0 mt-3 w-64 rounded-xl shadow-2xl overflow-hidden transition-all duration-200"
-                style={{
-                  background:
-                    'linear-gradient(160deg, rgba(7,18,8,0.99) 0%, rgba(15,31,13,0.99) 100%)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(200,150,90,0.25)',
-                  opacity: moreOpen ? 1 : 0,
-                  pointerEvents: moreOpen ? 'auto' : 'none',
-                  transform: moreOpen
-                    ? 'translateY(0)'
-                    : 'translateY(-8px)',
-                }}
-              >
-                <div className="p-2">
+              {moreOpen && (
+                <div
+                  className="
+                    absolute right-0 top-full mt-2
+                    w-64
+                    bg-white
+                    rounded-xl
+                    shadow-xl
+                    border border-[#E5EDE1]
+                    py-2
+                    overflow-hidden
+                    z-50
+                  "
+                  role="menu"
+                >
+              {moreLinks
+  .filter((link) => !(isBlogPage && link.href === '/about'))
+  .map((link) => {
+                    const active = isActive(link.href);
 
-                  {moreLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setMoreOpen(false)}
-                      className={`
-                        flex items-center gap-3
-                        px-4 py-3
-                        rounded-lg
-                        text-sm
-                        font-medium
-                        transition-all duration-200
-                        ${
-                          isActive(link.href)
-                            ? 'text-[#F2C48D] bg-white/10'
-                            : 'text-white hover:text-[#F2C48D] hover:bg-white/8'
-                        }
-                      `}
-                    >
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full ${
-                          isActive(link.href)
-                            ? 'bg-[#C8965A]'
-                            : 'bg-white/30'
-                        }`}
-                      />
-
-                      {link.label}
-                    </Link>
-                  ))}
-
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setMoreOpen(false)}
+                        className={`
+                          block px-4 py-2.5
+                          text-sm
+                          font-medium
+                          transition-colors duration-200
+                          ${
+                            active
+                              ? 'bg-[#F0F6EC] text-[#2D5016] font-semibold'
+                              : 'text-[#34432F] hover:bg-[#F5F8F3] hover:text-[#2D5016]'
+                          }
+                        `}
+                        role="menuitem"
+                      >
+                        {link.label}
+                      </Link>
+                    );
+                  })}
                 </div>
-              </div>
+              )}
             </div>
 
-            {/* ================= PHONE ================= */}
+            {/* =========================
+                PHONE
+            ========================== */}
             <a
               href="tel:0774729464"
               className="
-                flex items-center gap-2
-                whitespace-nowrap
-                px-3 py-2.5
-                rounded-lg
-                text-sm
+                hidden xl:flex
+                items-center gap-2
+                ml-2
+                px-3 py-2
+                text-[#24351F]
+                hover:text-[#2D5016]
                 font-semibold
-                text-white
-                hover:text-[#F2C48D]
-                hover:bg-white/8
-                transition-all duration-200
+                text-sm
+                transition-colors
+                whitespace-nowrap
               "
-              aria-label="Call us"
             >
               <svg
-                className="w-4 h-4 text-[#D9A66A]"
-                fill="currentColor"
+                className="w-4 h-4 text-[#2D5016]"
                 viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
                 aria-hidden="true"
               >
-                <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.56.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.25 1.01l-2.2 2.21z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 5.5A2.5 2.5 0 015.5 3h2A1.5 1.5 0 019 4.2l1 3a1.5 1.5 0 01-.4 1.55l-1.3 1.3a16 16 0 006.65 6.65l1.3-1.3a1.5 1.5 0 011.55-.4l3 1a1.5 1.5 0 011.2 1.5v2A2.5 2.5 0 0121.5 21C11.28 21 3 12.72 3 2.5v3z"
+                />
               </svg>
 
-              <span>0774 729464</span>
+              0774 729464
             </a>
 
-            {/* ================= QUOTE BUTTON ================= */}
+            {/* =========================
+                REQUEST QUOTE BUTTON
+            ========================== */}
             <Link
               href="/request-a-quote"
               className="
                 ml-1
                 inline-flex items-center justify-center
-                whitespace-nowrap
+                px-4 xl:px-5
+                py-2.5
                 rounded-lg
-                px-5 py-3
-                text-xs
+                text-white
+                bg-[#2D5016]
+                hover:bg-[#3C6B20]
                 font-bold
-                uppercase
-                tracking-[0.08em]
-                text-[#10170C]
-                bg-[#D9A66A]
-                hover:bg-[#E7BB87]
-                hover:-translate-y-0.5
-                shadow-lg
-                shadow-black/20
+                text-[0.8rem] xl:text-sm
+                shadow-md
+                hover:shadow-lg
                 transition-all duration-200
+                whitespace-nowrap
               "
             >
               Request a Quote
             </Link>
           </nav>
 
-          {/* ================= MOBILE MENU BUTTON ================= */}
+          {/* =========================
+              MOBILE MENU BUTTON
+          ========================== */}
           <button
             type="button"
             className="
               lg:hidden
-              z-50 relative
+              relative z-50
+              flex items-center justify-center
               w-11 h-11
               rounded-lg
-              border border-white/20
-              bg-white/10
-              flex flex-col items-center justify-center
-              gap-1.5
-              hover:bg-white/15
-              transition-all
+              bg-[#F0F6EC]
+              text-[#2D5016]
+              border border-[#DDE9D7]
+              hover:bg-[#E5F0E0]
+              transition-colors
             "
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() => setMenuOpen((value) => !value)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
           >
-            <span
-              className="block w-6 h-0.5 bg-white transition-all duration-300"
-              style={{
-                transform: menuOpen
-                  ? 'rotate(45deg) translateY(6px)'
-                  : 'none',
-              }}
-            />
-
-            <span
-              className="block w-6 h-0.5 bg-white transition-all duration-300"
-              style={{
-                opacity: menuOpen ? 0 : 1,
-              }}
-            />
-
-            <span
-              className="block w-6 h-0.5 bg-white transition-all duration-300"
-              style={{
-                transform: menuOpen
-                  ? 'rotate(-45deg) translateY(-6px)'
-                  : 'none',
-              }}
-            />
+            {menuOpen ? (
+              <svg
+                className="w-6 h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 6l12 12M18 6L6 18"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-6 h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 7h16M4 12h16M4 17h16"
+                />
+              </svg>
+            )}
           </button>
-
         </div>
       </header>
 
-      {/* ================= MOBILE MENU ================= */}
-      <div
-        className="fixed inset-0 z-40 transition-all duration-300 lg:hidden"
-        style={{
-          background:
-            'linear-gradient(160deg, rgba(7,18,8,0.99) 0%, rgba(15,31,13,0.99) 100%)',
-          backdropFilter: 'blur(24px)',
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? 'auto' : 'none',
-        }}
-        aria-hidden={!menuOpen}
-      >
+      {/* =========================
+          MOBILE MENU
+      ========================== */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
 
-        {/* Decorative glow */}
-        <div
-          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full opacity-10 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(circle, #C8965A, transparent)',
-          }}
-        />
+          {/* Background overlay */}
+          <div
+            className="absolute inset-0 bg-[#17320E]/95 backdrop-blur-sm"
+            onClick={() => setMenuOpen(false)}
+          />
 
-        <div
-          className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full opacity-10 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(circle, #2D5016, transparent)',
-          }}
-        />
-
-        {/* Scrollable content */}
-        <div className="absolute inset-0 overflow-y-auto pt-28 pb-28">
-
-          <nav className="relative z-10 w-full max-w-md mx-auto px-6">
-
-            {allMobileLinks.map((link, i) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className={`
-                  flex items-center justify-between
-                  w-full
-                  min-h-[52px]
-                  px-4
-                  my-1
-                  rounded-xl
-                  font-display
-                  text-[17px]
-                  sm:text-[19px]
-                  font-semibold
-                  transition-all duration-200
-                  ${
-                    isActive(link.href)
-                      ? 'text-[#F2C48D] bg-white/10 border border-[#C8965A]/30'
-                      : 'text-white hover:text-[#F2C48D] hover:bg-white/8'
-                  }
-                `}
-                style={{
-                  transitionDelay: `${i * 20}ms`,
-                }}
-              >
-                <span>{link.label}</span>
-
-                <span
-                  className={`text-lg ${
-                    isActive(link.href)
-                      ? 'text-[#D9A66A]'
-                      : 'text-white/30'
-                  }`}
-                >
-                  →
-                </span>
-              </Link>
-            ))}
-
-            {/* MOBILE CTA BUTTONS */}
-            <div className="flex flex-col gap-3 mt-7 px-1">
-
-              <Link
-                href="/request-a-quote"
-                onClick={() => setMenuOpen(false)}
-                className="
-                  w-full
-                  text-center
-                  rounded-xl
-                  py-4
-                  font-bold
-                  uppercase
-                  tracking-wide
-                  text-[#10170C]
-                  bg-[#D9A66A]
-                  hover:bg-[#E7BB87]
-                  transition-all
-                  shadow-lg
-                "
-              >
-                Request a Quote
-              </Link>
-
-              <a
-                href="https://wa.me/256774729464"
-                onClick={() => setMenuOpen(false)}
-                className="
-                  w-full
-                  text-center
-                  rounded-xl
-                  py-4
-                  font-bold
-                  uppercase
-                  tracking-wide
-                  text-white
-                  border border-white/20
-                  bg-white/10
-                  hover:bg-white/15
-                  transition-all
-                "
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                WhatsApp Us
-              </a>
-
-            </div>
-
-          </nav>
-        </div>
-
-        {/* MOBILE PHONE */}
-        <div
-          className="
-            absolute bottom-4 left-0 right-0
-            z-20
-            text-center
-            text-white/70
-            text-sm
-          "
-        >
-          <a
-            href="tel:0774729464"
-            className="hover:text-[#F2C48D] transition-colors"
+          {/* Mobile navigation */}
+          <div
+            className="
+              relative
+              h-full
+              overflow-y-auto
+              pt-24
+              px-5
+              pb-8
+            "
           >
-            0774 729464
-          </a>
-        </div>
+            <div className="max-w-md mx-auto">
 
-      </div>
+              {/* Mobile brand */}
+              <div className="flex items-center gap-3 pb-6 mb-4 border-b border-white/15">
+                <AppLogo
+                  src="/assets/images/65194-1788422840167.webp"
+                  size={50}
+                />
+
+                <div>
+                  <div className="text-white font-extrabold text-xl">
+                    Je Fais
+                  </div>
+
+                  <div className="text-[#D8C36A] text-xs font-semibold tracking-[0.18em] uppercase">
+                    Nature Safaris
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile links */}
+              <nav className="space-y-1">
+                {allMobileLinks
+  .filter(
+    (link) =>
+      !(
+        isBlogPage &&
+        (link.href === '/wildlife-safaris' || link.href === '/about')
+      )
+  )
+  .map((link) => {
+                  const active = isActive(link.href);
+
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`
+                        flex items-center justify-between
+                        px-4 py-3.5
+                        rounded-xl
+                        text-base
+                        font-semibold
+                        transition-all duration-200
+                        ${
+                          active
+                            ? 'bg-white text-[#2D5016]'
+                            : 'text-white hover:bg-white/10 hover:text-[#D8C36A]'
+                        }
+                      `}
+                    >
+                      <span>{link.label}</span>
+
+                      <svg
+                        className="w-4 h-4 opacity-60"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.21 14.77a.75.75 0 01.02-1.06L10.94 10 7.23 6.29a.75.75 0 111.06-1.06l4.24 4.24a.75.75 0 010 1.06l-4.24 4.24a.75.75 0 01-1.08 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Mobile contact */}
+              <div className="mt-6 pt-6 border-t border-white/15 space-y-3">
+
+                <a
+                  href="tel:0774729464"
+                  className="
+                    flex items-center justify-center gap-2
+                    w-full
+                    px-4 py-3.5
+                    rounded-xl
+                    bg-white/10
+                    text-white
+                    font-semibold
+                    hover:bg-white/15
+                    transition-colors
+                  "
+                >
+                  <svg
+                    className="w-5 h-5 text-[#D8C36A]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 5.5A2.5 2.5 0 015.5 3h2A1.5 1.5 0 019 4.2l1 3a1.5 1.5 0 01-.4 1.55l-1.3 1.3a16 16 0 006.65 6.65l1.3-1.3a1.5 1.5 0 011.55-.4l3 1a1.5 1.5 0 011.2 1.5v2A2.5 2.5 0 0121.5 21C11.28 21 3 12.72 3 2.5v3z"
+                    />
+                  </svg>
+
+                  0774 729464
+                </a>
+
+                <a
+                  href="https://wa.me/256774729464"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    flex items-center justify-center gap-2
+                    w-full
+                    px-4 py-3.5
+                    rounded-xl
+                    bg-[#25D366]
+                    text-white
+                    font-bold
+                    hover:bg-[#20BD5A]
+                    transition-colors
+                  "
+                >
+                  <span className="text-lg">WhatsApp</span>
+                </a>
+
+                <Link
+                  href="/request-a-quote"
+                  onClick={() => setMenuOpen(false)}
+                  className="
+                    flex items-center justify-center
+                    w-full
+                    px-4 py-3.5
+                    rounded-xl
+                    bg-[#D8C36A]
+                    text-[#17320E]
+                    font-extrabold
+                    hover:bg-[#E3D17D]
+                    transition-colors
+                  "
+                >
+                  Request a Quote
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

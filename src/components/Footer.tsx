@@ -29,6 +29,7 @@ const serviceLinks = [
   { label: 'Tourism Internships', href: '/internships' },
   { label: 'Global Partnership', href: '/global-tourism-partnerships' },
   { label: 'Travel Guide', href: '/travel-guide' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Request a Quotation', href: '/request-a-quote' },
 ];
 
@@ -45,11 +46,11 @@ const partnerLogos = [
     alt: 'Uganda Tourism Board',
     name: 'Uganda Tourism Board',
   },
-  {
-    src: '/images/partners/uto.webp',
-    alt: 'Uganda Tour Operators',
-    name: 'Uganda Tour Operators',
-  },
+{
+  src: '/images/yuto.webp',
+  alt: 'Youth Uganda Tour Operators',
+  name: 'Youth Uganda Tour Operators',
+},
   {
     src: '/images/partners/uwa.webp',
     alt: 'Uganda Wildlife Authority',

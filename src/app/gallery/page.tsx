@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import GalleryDisplay from "@/components/GalleryDisplay";
+import GalleryDisplay from "./GalleryDisplay";
 
 interface GalleryItem {
   filename: string;
