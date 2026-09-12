@@ -26,8 +26,22 @@ export async function POST(request: Request) {
 
     if (!fullName || !email || !country) {
       return NextResponse.json(
-        { error: 'Please provide your name, email and country.' },
+        {
+          success: false,
+          error: 'Please provide your name, email and country.',
+        },
         { status: 400 }
+      );
+    }
+
+    // Check API key
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'RESEND_API_KEY is missing from the Vercel environment variables.',
+        },
+        { status: 500 }
       );
     }
 
@@ -42,12 +56,12 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           from: 'JE FAIS NATURE SAFARIS <quotes@jefaisnaturesafari.com>',
 
-          // Quote requests now go to the official site email.
-          // Namecheap forwards info@jefaisnaturesafari.com
-          // to jefaisafricasafaris@gmail.com
+          // IMPORTANT:
+          // Keep this as the official site email.
+          // Namecheap should forward this address to Gmail.
           to: ['info@jefaisnaturesafari.com'],
 
-          // Replies go directly to the customer's email.
+          // Customer receives replies directly.
           reply_to: email,
 
           subject: `New Safari Quote Request — ${fullName}`,
@@ -56,34 +70,48 @@ export async function POST(request: Request) {
             <h2>New Safari Quote Request</h2>
 
             <h3>Contact Details</h3>
+
             <p><strong>Full Name:</strong> ${fullName}</p>
+
             <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Phone / WhatsApp:</strong> ${phone || 'Not provided'}</p>
+
+            <p><strong>Phone / WhatsApp:</strong> ${
+              phone || 'Not provided'
+            }</p>
+
             <p><strong>Country:</strong> ${country}</p>
 
             <h3>Safari Details</h3>
+
             <p><strong>Package:</strong> ${
               selectedPackage || 'Tailor-made / Not specified'
             }</p>
+
             <p><strong>Travel Date:</strong> ${
               travelDate || 'Not specified'
             }</p>
+
             <p><strong>Total Travellers:</strong> ${
               numTravellers || 'Not specified'
             }</p>
+
             <p><strong>Adults:</strong> ${
               numAdults || 'Not specified'
             }</p>
+
             <p><strong>Children:</strong> ${
               numChildren || 'Not specified'
             }</p>
+
             <p><strong>Accommodation:</strong> ${
               accommodationLevel || 'Not specified'
             }</p>
 
             <h3>Experiences</h3>
-            <p><strong>Interests:</strong> ${
-              safariInterests?.length
+
+            <p><strong>Safari Interests:</strong> ${
+              Array.isArray(safariInterests) &&
+              safariInterests.length
                 ? safariInterests.join(', ')
                 : 'Not specified'
             }</p>
@@ -109,7 +137,10 @@ export async function POST(request: Request) {
             }</p>
 
             <h3>Customer Message</h3>
-            <p>${message || 'No additional message provided.'}</p>
+
+            <p>${
+              message || 'No additional message provided.'
+            }</p>
 
             <hr />
 
@@ -122,28 +153,47 @@ export async function POST(request: Request) {
       }
     );
 
-    if (!emailResponse.ok) {
-      const errorText = await emailResponse.text();
+    // Read Resend's response
+    const responseText = await emailResponse.text();
 
-      console.error('Resend error:', errorText);
+    // TEMPORARY DIAGNOSTIC RESPONSE
+    if (!emailResponse.ok) {
+      console.error('RESEND ERROR:', responseText);
 
       return NextResponse.json(
-        { error: 'Unable to send enquiry email.' },
+        {
+          success: false,
+          message: 'RESEND REJECTED THE EMAIL',
+          resendStatus: emailResponse.status,
+          resendResponse: responseText,
+        },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(
-      { success: true },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error('Quote submission error:', error);
+    // Successful Resend response
+    console.log('RESEND SUCCESS:', responseText);
 
     return NextResponse.json(
       {
+        success: true,
+        message: 'RESEND ACCEPTED THE EMAIL',
+        resendResponse: responseText,
+      },
+      { status: 200 }
+    );
+
+  } catch (error) {
+    console.error('QUOTE ROUTE ERROR:', error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'QUOTE ROUTE ERROR',
         error:
-          'Something went wrong while sending your enquiry.',
+          error instanceof Error
+            ? error.message
+            : String(error),
       },
       { status: 500 }
     );
