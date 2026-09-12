@@ -309,7 +309,30 @@ export default function Footer() {
             </Link>
           </div>
         </div>
+        {/* CONTACT US */}
+        <div
+          className="mt-12 pt-10 border-t border-white/[0.08]"
+        >
+          <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-white/40 mb-5">
+            Contact Us
+          </h3>
 
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-10">
+            <a
+              href="mailto:info@jefaisnaturesafari.com"
+              className="text-sm text-white/55 hover:text-accent transition-colors"
+            >
+              info@jefaisnaturesafari.com
+            </a>
+
+            <a
+              href="mailto:jefaisafricasafaris@gmail.com"
+              className="text-sm text-white/55 hover:text-accent transition-colors"
+            >
+              jefaisafricasafaris@gmail.com
+            </a>
+          </div>
+        </div>
         {/* BOTTOM ROW */}
         <div
           className="mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/30"
