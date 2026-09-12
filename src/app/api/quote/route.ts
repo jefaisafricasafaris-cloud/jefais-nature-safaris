@@ -27,7 +27,6 @@ export async function POST(request: Request) {
       message,
     } = body;
 
-    // Basic validation
     if (!fullName || !email || !country) {
       return NextResponse.json(
         {
@@ -38,7 +37,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Namecheap mailbox credentials
     const smtpUser = process.env.NAMECHEAP_EMAIL;
     const smtpPassword = process.env.NAMECHEAP_EMAIL_PASSWORD;
 
@@ -47,13 +45,12 @@ export async function POST(request: Request) {
         {
           success: false,
           error:
-            'SMTP settings are missing. NAMECHEAP_EMAIL or NAMECHEAP_EMAIL_PASSWORD is not configured in Vercel.',
+            'SMTP settings are missing. Please configure NAMECHEAP_EMAIL and NAMECHEAP_EMAIL_PASSWORD in Vercel.',
         },
         { status: 500 }
       );
     }
 
-    // Namecheap Private Email SMTP
     const transporter = nodemailer.createTransport({
       host: 'mail.privateemail.com',
       port: 465,
@@ -63,23 +60,6 @@ export async function POST(request: Request) {
         pass: smtpPassword,
       },
     });
-
-    // Verify SMTP connection before sending
-    try {
-      await transporter.verify();
-    } catch (verifyError: any) {
-      console.error('NAMECHEAP SMTP VERIFY ERROR:', verifyError);
-
-      return NextResponse.json(
-        {
-          success: false,
-          error: `Namecheap SMTP connection failed: ${
-            verifyError?.message || 'Unknown SMTP error'
-          }`,
-        },
-        { status: 500 }
-      );
-    }
 
     const html = `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #222;">
@@ -92,37 +72,19 @@ export async function POST(request: Request) {
         <p><strong>Country:</strong> ${country}</p>
 
         <h3>Safari Details</h3>
-        <p><strong>Selected Package:</strong> ${
-          selectedPackage || 'Not specified'
-        }</p>
-        <p><strong>Travel Date:</strong> ${
-          travelDate || 'Not specified'
-        }</p>
-        <p><strong>Total Travellers:</strong> ${
-          numTravellers || 'Not specified'
-        }</p>
+        <p><strong>Selected Package:</strong> ${selectedPackage || 'Not specified'}</p>
+        <p><strong>Travel Date:</strong> ${travelDate || 'Not specified'}</p>
+        <p><strong>Total Travellers:</strong> ${numTravellers || 'Not specified'}</p>
         <p><strong>Adults:</strong> ${numAdults || 'Not specified'}</p>
         <p><strong>Children:</strong> ${numChildren || 'Not specified'}</p>
-        <p><strong>Accommodation:</strong> ${
-          accommodationLevel || 'Not specified'
-        }</p>
+        <p><strong>Accommodation:</strong> ${accommodationLevel || 'Not specified'}</p>
 
         <h3>Safari Interests</h3>
-        <p><strong>Safari Interests:</strong> ${
-          safariInterests || 'Not specified'
-        }</p>
-        <p><strong>Gorilla Trekking:</strong> ${
-          gorillaTrekking || 'Not specified'
-        }</p>
-        <p><strong>Chimpanzee Trekking:</strong> ${
-          chimpanzeeTrekking || 'Not specified'
-        }</p>
-        <p><strong>Wildlife Interests:</strong> ${
-          wildlifeInterests || 'Not specified'
-        }</p>
-        <p><strong>Cultural Experiences:</strong> ${
-          culturalExperiences || 'Not specified'
-        }</p>
+        <p><strong>Safari Interests:</strong> ${safariInterests || 'Not specified'}</p>
+        <p><strong>Gorilla Trekking:</strong> ${gorillaTrekking || 'Not specified'}</p>
+        <p><strong>Chimpanzee Trekking:</strong> ${chimpanzeeTrekking || 'Not specified'}</p>
+        <p><strong>Wildlife Interests:</strong> ${wildlifeInterests || 'Not specified'}</p>
+        <p><strong>Cultural Experiences:</strong> ${culturalExperiences || 'Not specified'}</p>
 
         <h3>Additional Information</h3>
         <p><strong>Special Requests:</strong><br/>
@@ -142,13 +104,12 @@ export async function POST(request: Request) {
     `;
 
     await transporter.sendMail({
-      // Must be the authenticated Namecheap mailbox
       from: `JE FAIS NATURE SAFARIS <${smtpUser}>`,
 
-      // DO NOT CHANGE THIS
-      to: 'info@jefaisnaturesafari.com',
+      // Quote requests are delivered here
+      to: 'jefaisafricasafaris@gmail.com',
 
-      // Replies go directly to the traveller
+      // Reply directly to the traveller
       replyTo: email,
 
       subject: `New Safari Quote Request — ${fullName}`,
