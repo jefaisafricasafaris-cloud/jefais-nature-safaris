@@ -40,10 +40,18 @@ export async function POST(request: Request) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-from: 'JE FAIS NATURE SAFARIS <quotes@jefaisnaturesafari.com>',
-to: ['jefaisafricasafaris@gmail.com'],
-reply_to: email,
+          from: 'JE FAIS NATURE SAFARIS <quotes@jefaisnaturesafari.com>',
+
+          // Quote requests now go to the official site email.
+          // Namecheap forwards info@jefaisnaturesafari.com
+          // to jefaisafricasafaris@gmail.com
+          to: ['info@jefaisnaturesafari.com'],
+
+          // Replies go directly to the customer's email.
+          reply_to: email,
+
           subject: `New Safari Quote Request — ${fullName}`,
+
           html: `
             <h2>New Safari Quote Request</h2>
 
@@ -54,12 +62,24 @@ reply_to: email,
             <p><strong>Country:</strong> ${country}</p>
 
             <h3>Safari Details</h3>
-            <p><strong>Package:</strong> ${selectedPackage || 'Tailor-made / Not specified'}</p>
-            <p><strong>Travel Date:</strong> ${travelDate || 'Not specified'}</p>
-            <p><strong>Total Travellers:</strong> ${numTravellers || 'Not specified'}</p>
-            <p><strong>Adults:</strong> ${numAdults || 'Not specified'}</p>
-            <p><strong>Children:</strong> ${numChildren || 'Not specified'}</p>
-            <p><strong>Accommodation:</strong> ${accommodationLevel || 'Not specified'}</p>
+            <p><strong>Package:</strong> ${
+              selectedPackage || 'Tailor-made / Not specified'
+            }</p>
+            <p><strong>Travel Date:</strong> ${
+              travelDate || 'Not specified'
+            }</p>
+            <p><strong>Total Travellers:</strong> ${
+              numTravellers || 'Not specified'
+            }</p>
+            <p><strong>Adults:</strong> ${
+              numAdults || 'Not specified'
+            }</p>
+            <p><strong>Children:</strong> ${
+              numChildren || 'Not specified'
+            }</p>
+            <p><strong>Accommodation:</strong> ${
+              accommodationLevel || 'Not specified'
+            }</p>
 
             <h3>Experiences</h3>
             <p><strong>Interests:</strong> ${
@@ -67,16 +87,32 @@ reply_to: email,
                 ? safariInterests.join(', ')
                 : 'Not specified'
             }</p>
-            <p><strong>Gorilla Trekking:</strong> ${gorillaTrekking || 'Not specified'}</p>
-            <p><strong>Chimpanzee Trekking:</strong> ${chimpanzeeTrekking || 'Not specified'}</p>
-            <p><strong>Wildlife Interests:</strong> ${wildlifeInterests || 'Not specified'}</p>
-            <p><strong>Cultural Experiences:</strong> ${culturalExperiences || 'Not specified'}</p>
-            <p><strong>Special Requests:</strong> ${specialRequests || 'None'}</p>
+
+            <p><strong>Gorilla Trekking:</strong> ${
+              gorillaTrekking || 'Not specified'
+            }</p>
+
+            <p><strong>Chimpanzee Trekking:</strong> ${
+              chimpanzeeTrekking || 'Not specified'
+            }</p>
+
+            <p><strong>Wildlife Interests:</strong> ${
+              wildlifeInterests || 'Not specified'
+            }</p>
+
+            <p><strong>Cultural Experiences:</strong> ${
+              culturalExperiences || 'Not specified'
+            }</p>
+
+            <p><strong>Special Requests:</strong> ${
+              specialRequests || 'None'
+            }</p>
 
             <h3>Customer Message</h3>
             <p>${message || 'No additional message provided.'}</p>
 
             <hr />
+
             <p>
               This enquiry was submitted through the
               JE FAIS NATURE SAFARIS website.
@@ -105,7 +141,10 @@ reply_to: email,
     console.error('Quote submission error:', error);
 
     return NextResponse.json(
-      { error: 'Something went wrong while sending your enquiry.' },
+      {
+        error:
+          'Something went wrong while sending your enquiry.',
+      },
       { status: 500 }
     );
   }
