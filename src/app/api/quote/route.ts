@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+
+export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {
@@ -34,166 +37,163 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check API key
-    if (!process.env.RESEND_API_KEY) {
+    // Namecheap Private Email SMTP credentials
+    const smtpUser = process.env.NAMECHEAP_EMAIL;
+    const smtpPassword = process.env.NAMECHEAP_EMAIL_PASSWORD;
+
+    if (!smtpUser || !smtpPassword) {
+      console.error('Namecheap SMTP credentials are missing.');
+
       return NextResponse.json(
         {
           success: false,
-          error: 'RESEND_API_KEY is missing from the Vercel environment variables.',
+          error: 'Namecheap email settings are not configured.',
         },
         { status: 500 }
       );
     }
 
-    const emailResponse = await fetch(
-      'https://api.resend.com/emails',
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'JE FAIS NATURE SAFARIS <quotes@jefaisnaturesafari.com>',
+    const transporter = nodemailer.createTransport({
+      host: 'mail.privateemail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: smtpUser,
+        pass: smtpPassword,
+      },
+    });
 
-          // IMPORTANT:
-          // Keep this as the official site email.
-          // Namecheap should forward this address to Gmail.
-          to: ['info@jefaisnaturesafari.com'],
+    await transporter.sendMail({
+      from: `JE FAIS NATURE SAFARIS <${smtpUser}>`,
 
-          // Customer receives replies directly.
-          reply_to: email,
+      // IMPORTANT:
+      // Quote requests go to the official site email.
+      // Namecheap forwards this mailbox to Gmail.
+      to: 'info@jefaisnaturesafari.com',
 
-          subject: `New Safari Quote Request — ${fullName}`,
+      // Replies go directly to the customer.
+      replyTo: email,
 
-          html: `
-            <h2>New Safari Quote Request</h2>
+      subject: `New Safari Quote Request — ${fullName}`,
 
-            <h3>Contact Details</h3>
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
 
-            <p><strong>Full Name:</strong> ${fullName}</p>
+          <h2>New Safari Quote Request</h2>
 
-            <p><strong>Email:</strong> ${email}</p>
+          <h3>Contact Details</h3>
 
-            <p><strong>Phone / WhatsApp:</strong> ${
-              phone || 'Not provided'
-            }</p>
+          <p><strong>Full Name:</strong> ${fullName}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone / WhatsApp:</strong> ${phone || 'Not provided'}</p>
+          <p><strong>Country:</strong> ${country}</p>
 
-            <p><strong>Country:</strong> ${country}</p>
+          <h3>Safari Details</h3>
 
-            <h3>Safari Details</h3>
+          <p>
+            <strong>Package:</strong>
+            ${selectedPackage || 'Tailor-made / Not specified'}
+          </p>
 
-            <p><strong>Package:</strong> ${
-              selectedPackage || 'Tailor-made / Not specified'
-            }</p>
+          <p>
+            <strong>Travel Date:</strong>
+            ${travelDate || 'Not specified'}
+          </p>
 
-            <p><strong>Travel Date:</strong> ${
-              travelDate || 'Not specified'
-            }</p>
+          <p>
+            <strong>Total Travellers:</strong>
+            ${numTravellers || 'Not specified'}
+          </p>
 
-            <p><strong>Total Travellers:</strong> ${
-              numTravellers || 'Not specified'
-            }</p>
+          <p>
+            <strong>Adults:</strong>
+            ${numAdults || 'Not specified'}
+          </p>
 
-            <p><strong>Adults:</strong> ${
-              numAdults || 'Not specified'
-            }</p>
+          <p>
+            <strong>Children:</strong>
+            ${numChildren || 'Not specified'}
+          </p>
 
-            <p><strong>Children:</strong> ${
-              numChildren || 'Not specified'
-            }</p>
+          <p>
+            <strong>Accommodation:</strong>
+            ${accommodationLevel || 'Not specified'}
+          </p>
 
-            <p><strong>Accommodation:</strong> ${
-              accommodationLevel || 'Not specified'
-            }</p>
+          <h3>Experiences</h3>
 
-            <h3>Experiences</h3>
-
-            <p><strong>Safari Interests:</strong> ${
+          <p>
+            <strong>Safari Interests:</strong>
+            ${
               Array.isArray(safariInterests) &&
               safariInterests.length
                 ? safariInterests.join(', ')
                 : 'Not specified'
-            }</p>
+            }
+          </p>
 
-            <p><strong>Gorilla Trekking:</strong> ${
-              gorillaTrekking || 'Not specified'
-            }</p>
+          <p>
+            <strong>Gorilla Trekking:</strong>
+            ${gorillaTrekking || 'Not specified'}
+          </p>
 
-            <p><strong>Chimpanzee Trekking:</strong> ${
-              chimpanzeeTrekking || 'Not specified'
-            }</p>
+          <p>
+            <strong>Chimpanzee Trekking:</strong>
+            ${chimpanzeeTrekking || 'Not specified'}
+          </p>
 
-            <p><strong>Wildlife Interests:</strong> ${
-              wildlifeInterests || 'Not specified'
-            }</p>
+          <p>
+            <strong>Wildlife Interests:</strong>
+            ${wildlifeInterests || 'Not specified'}
+          </p>
 
-            <p><strong>Cultural Experiences:</strong> ${
-              culturalExperiences || 'Not specified'
-            }</p>
+          <p>
+            <strong>Cultural Experiences:</strong>
+            ${culturalExperiences || 'Not specified'}
+          </p>
 
-            <p><strong>Special Requests:</strong> ${
-              specialRequests || 'None'
-            }</p>
+          <p>
+            <strong>Special Requests:</strong>
+            ${specialRequests || 'None'}
+          </p>
 
-            <h3>Customer Message</h3>
+          <h3>Customer Message</h3>
 
-            <p>${
-              message || 'No additional message provided.'
-            }</p>
+          <p>
+            ${message || 'No additional message provided.'}
+          </p>
 
-            <hr />
+          <hr />
 
-            <p>
-              This enquiry was submitted through the
-              JE FAIS NATURE SAFARIS website.
-            </p>
-          `,
-        }),
-      }
-    );
+          <p>
+            This enquiry was submitted through the
+            JE FAIS NATURE SAFARIS website.
+          </p>
 
-    // Read Resend's response
-    const responseText = await emailResponse.text();
+        </div>
+      `,
+    });
 
-    // TEMPORARY DIAGNOSTIC RESPONSE
-    if (!emailResponse.ok) {
-      console.error('RESEND ERROR:', responseText);
-
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'RESEND REJECTED THE EMAIL',
-          resendStatus: emailResponse.status,
-          resendResponse: responseText,
-        },
-        { status: 500 }
-      );
-    }
-
-    // Successful Resend response
-    console.log('RESEND SUCCESS:', responseText);
+    console.log('Namecheap SMTP: quotation email sent successfully.');
 
     return NextResponse.json(
       {
         success: true,
-        message: 'RESEND ACCEPTED THE EMAIL',
-        resendResponse: responseText,
+        message: 'Quotation email sent successfully.',
       },
       { status: 200 }
     );
 
   } catch (error) {
-    console.error('QUOTE ROUTE ERROR:', error);
+    console.error('Namecheap SMTP quote error:', error);
 
     return NextResponse.json(
       {
         success: false,
-        message: 'QUOTE ROUTE ERROR',
         error:
           error instanceof Error
             ? error.message
-            : String(error),
+            : 'Unable to send quotation email.',
       },
       { status: 500 }
     );
