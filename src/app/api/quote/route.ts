@@ -5,7 +5,7 @@ export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
+    const body = await request.json();
 
     const {
       fullName,
@@ -25,34 +25,35 @@ export async function POST(request: Request) {
       culturalExperiences,
       specialRequests,
       message,
-    } = data;
+    } = body;
 
+    // Basic validation
     if (!fullName || !email || !country) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Please provide your name, email and country.',
+          error: 'Please provide your full name, email address and country.',
         },
         { status: 400 }
       );
     }
 
-    // Namecheap Private Email SMTP credentials
+    // Namecheap mailbox credentials
     const smtpUser = process.env.NAMECHEAP_EMAIL;
     const smtpPassword = process.env.NAMECHEAP_EMAIL_PASSWORD;
 
     if (!smtpUser || !smtpPassword) {
-      console.error('Namecheap SMTP credentials are missing.');
-
       return NextResponse.json(
         {
           success: false,
-          error: 'Namecheap email settings are not configured.',
+          error:
+            'SMTP settings are missing. NAMECHEAP_EMAIL or NAMECHEAP_EMAIL_PASSWORD is not configured in Vercel.',
         },
         { status: 500 }
       );
     }
 
+    // Namecheap Private Email SMTP
     const transporter = nodemailer.createTransport({
       host: 'mail.privateemail.com',
       port: 465,
@@ -63,137 +64,111 @@ export async function POST(request: Request) {
       },
     });
 
+    // Verify SMTP connection before sending
+    try {
+      await transporter.verify();
+    } catch (verifyError: any) {
+      console.error('NAMECHEAP SMTP VERIFY ERROR:', verifyError);
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Namecheap SMTP connection failed: ${
+            verifyError?.message || 'Unknown SMTP error'
+          }`,
+        },
+        { status: 500 }
+      );
+    }
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #222;">
+        <h2>New Safari Quote Request</h2>
+
+        <h3>Traveller Details</h3>
+        <p><strong>Full Name:</strong> ${fullName}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+        <p><strong>Country:</strong> ${country}</p>
+
+        <h3>Safari Details</h3>
+        <p><strong>Selected Package:</strong> ${
+          selectedPackage || 'Not specified'
+        }</p>
+        <p><strong>Travel Date:</strong> ${
+          travelDate || 'Not specified'
+        }</p>
+        <p><strong>Total Travellers:</strong> ${
+          numTravellers || 'Not specified'
+        }</p>
+        <p><strong>Adults:</strong> ${numAdults || 'Not specified'}</p>
+        <p><strong>Children:</strong> ${numChildren || 'Not specified'}</p>
+        <p><strong>Accommodation:</strong> ${
+          accommodationLevel || 'Not specified'
+        }</p>
+
+        <h3>Safari Interests</h3>
+        <p><strong>Safari Interests:</strong> ${
+          safariInterests || 'Not specified'
+        }</p>
+        <p><strong>Gorilla Trekking:</strong> ${
+          gorillaTrekking || 'Not specified'
+        }</p>
+        <p><strong>Chimpanzee Trekking:</strong> ${
+          chimpanzeeTrekking || 'Not specified'
+        }</p>
+        <p><strong>Wildlife Interests:</strong> ${
+          wildlifeInterests || 'Not specified'
+        }</p>
+        <p><strong>Cultural Experiences:</strong> ${
+          culturalExperiences || 'Not specified'
+        }</p>
+
+        <h3>Additional Information</h3>
+        <p><strong>Special Requests:</strong><br/>
+          ${specialRequests || 'None'}
+        </p>
+
+        <p><strong>Message:</strong><br/>
+          ${message || 'None'}
+        </p>
+
+        <hr/>
+
+        <p>
+          <strong>Submitted through the JE FAIS NATURE SAFARIS website.</strong>
+        </p>
+      </div>
+    `;
+
     await transporter.sendMail({
+      // Must be the authenticated Namecheap mailbox
       from: `JE FAIS NATURE SAFARIS <${smtpUser}>`,
 
-      // IMPORTANT:
-      // Quote requests go to the official site email.
-      // Namecheap forwards this mailbox to Gmail.
+      // DO NOT CHANGE THIS
       to: 'info@jefaisnaturesafari.com',
 
-      // Replies go directly to the customer.
+      // Replies go directly to the traveller
       replyTo: email,
 
       subject: `New Safari Quote Request — ${fullName}`,
 
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-
-          <h2>New Safari Quote Request</h2>
-
-          <h3>Contact Details</h3>
-
-          <p><strong>Full Name:</strong> ${fullName}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone / WhatsApp:</strong> ${phone || 'Not provided'}</p>
-          <p><strong>Country:</strong> ${country}</p>
-
-          <h3>Safari Details</h3>
-
-          <p>
-            <strong>Package:</strong>
-            ${selectedPackage || 'Tailor-made / Not specified'}
-          </p>
-
-          <p>
-            <strong>Travel Date:</strong>
-            ${travelDate || 'Not specified'}
-          </p>
-
-          <p>
-            <strong>Total Travellers:</strong>
-            ${numTravellers || 'Not specified'}
-          </p>
-
-          <p>
-            <strong>Adults:</strong>
-            ${numAdults || 'Not specified'}
-          </p>
-
-          <p>
-            <strong>Children:</strong>
-            ${numChildren || 'Not specified'}
-          </p>
-
-          <p>
-            <strong>Accommodation:</strong>
-            ${accommodationLevel || 'Not specified'}
-          </p>
-
-          <h3>Experiences</h3>
-
-          <p>
-            <strong>Safari Interests:</strong>
-            ${
-              Array.isArray(safariInterests) &&
-              safariInterests.length
-                ? safariInterests.join(', ')
-                : 'Not specified'
-            }
-          </p>
-
-          <p>
-            <strong>Gorilla Trekking:</strong>
-            ${gorillaTrekking || 'Not specified'}
-          </p>
-
-          <p>
-            <strong>Chimpanzee Trekking:</strong>
-            ${chimpanzeeTrekking || 'Not specified'}
-          </p>
-
-          <p>
-            <strong>Wildlife Interests:</strong>
-            ${wildlifeInterests || 'Not specified'}
-          </p>
-
-          <p>
-            <strong>Cultural Experiences:</strong>
-            ${culturalExperiences || 'Not specified'}
-          </p>
-
-          <p>
-            <strong>Special Requests:</strong>
-            ${specialRequests || 'None'}
-          </p>
-
-          <h3>Customer Message</h3>
-
-          <p>
-            ${message || 'No additional message provided.'}
-          </p>
-
-          <hr />
-
-          <p>
-            This enquiry was submitted through the
-            JE FAIS NATURE SAFARIS website.
-          </p>
-
-        </div>
-      `,
+      html,
     });
 
-    console.log('Namecheap SMTP: quotation email sent successfully.');
-
-    return NextResponse.json(
-      {
-        success: true,
-        message: 'Quotation email sent successfully.',
-      },
-      { status: 200 }
-    );
-
-  } catch (error) {
-    console.error('Namecheap SMTP quote error:', error);
+    return NextResponse.json({
+      success: true,
+      message: 'Quote request sent successfully.',
+    });
+  } catch (error: any) {
+    console.error('QUOTE EMAIL ERROR:', error);
 
     return NextResponse.json(
       {
         success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'Unable to send quotation email.',
+        error: `Email sending failed: ${
+          error?.message || 'Unknown error'
+        }`,
       },
       { status: 500 }
     );
